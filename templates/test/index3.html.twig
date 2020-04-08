@@ -1,11 +1,15 @@
-<html>
-<head></head>
-<body>
-<h1>Bonjour</h1>
+{% extends 'base2.html.twig' %}
+
+{% block title %}index3{% endblock %}
+{% block body %}
+
+<h1>Les Noms</h1>
+<img src="{{asset('images/photo.jpeg')}}">
 <ul>
-    {% for name in names %}
+{% for name in names %}
         <li>{{ name }}</li>
     {% endfor %}
 </ul>
-</body>
-</html>
+<a href="{{path('somme',{'n1':20,'n2':30})}}">aller à la page somme</a>
+{% endblock %}
+
