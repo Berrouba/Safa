@@ -30,5 +30,14 @@
 <td>{{produit.category.name}}</td>
 
 </tr>
+
+<tr>
+<td>Fournisseurs :</td>
+<td>{% for f in produit.Fournisseurs %}
+{{f.name}} /
+{% else %}
+{% endfor %}
+</td>
+</tr>
 </table>
 {% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,16 @@ class Product
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
      */
     private $category;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Fournisseur", mappedBy="products")
+     */
+    private $fournisseurs;
+
+    public function __construct()
+    {
+        $this->fournisseurs = new ArrayCollection();
+    }
 
    
 
@@ -87,6 +99,34 @@ class Product
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Fournisseur[]
+     */
+    public function getFournisseurs(): Collection
+    {
+        return $this->fournisseurs;
+    }
+
+    public function addFournisseur(Fournisseur $fournisseur): self
+    {
+        if (!$this->fournisseurs->contains($fournisseur)) {
+            $this->fournisseurs[] = $fournisseur;
+            $fournisseur->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFournisseur(Fournisseur $fournisseur): self
+    {
+        if ($this->fournisseurs->contains($fournisseur)) {
+            $this->fournisseurs->removeElement($fournisseur);
+            $fournisseur->removeProduct($this);
+        }
 
         return $this;
     }
